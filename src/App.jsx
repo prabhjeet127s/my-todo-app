@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 
 import Navbar from './components/Navbar'
@@ -9,20 +9,45 @@ function App() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
+   useEffect(() => {
+    let todoString = localStorage.getItem("todos")
+    if(todoString){
+      let todos = JSON.parse(localStorage.getItem("todos")) 
+      setTodos(todos)
+    }
+  }, [])
+  
 
-  const handleEdit=()=>{
-
+  const saveToLS = () => {
+    localStorage.setItem("todos", JSON.stringify(todos))
   }
+
+
+  const handleEdit = (e, id)=>{ 
+    let t = todos.filter(i=>i.id === id) 
+    setTodo(t[0].todo)
+    let newTodos = todos.filter(item=>{
+      return item.id!==id
+    }); 
+    setTodos(newTodos) 
+    saveToLS()
+   
+  }
+
+
  const handleDelete= (e, id)=>{  
     let newTodos = todos.filter(item=>{
       return item.id!==id
     }); 
     setTodos(newTodos) 
+    saveToLS()
     
   }
   const handleAdd=()=>{
     setTodos([...todos,{id: uuidv4(),todo,iscompletes: false}])
     console.log(todos);
+
+    saveToLS()
     
     
   }
@@ -41,6 +66,8 @@ function App() {
     let newTodos = [...todos];
     newTodos[index].isCompleted = !newTodos[index].isCompleted;
     setTodos(newTodos)
+
+    saveToLS()
   
   }
   
@@ -63,15 +90,23 @@ function App() {
         <h2 className='text-lg font-bold' >Your Todos</h2>
         <div className="todos">
 
+          {todos.length ===0 && <div className='m-5'>No Todos to display</div> }
+
 
           {todos.map((item)=>{
 
 
        return   <div key={item.id} className="todo flex justify-between w-1/4 my-3">
-       <input name={item.id} onChange={handleCheckbox} type="checkbox" value={item.isCompleted} id="" />
-            <div className={item.iscompleted?"line-through":""} >{item.todo}</div>
+
+
+           <div className='flex gap-5'> 
+            <input name={item.id} onChange={handleCheckbox} type="checkbox" checked={item.isCompleted} id="" />
+            <div className={item.isCompleted?"line-through":""}>{item.todo}</div>
+            </div>
+
+
             <div className="buttons">
-              <button onClick={handleEdit} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 mx-1 rounded-md text-white font-bold'>Edit</button>
+              <button onClick={(e)=>{handleEdit(e,item.id)}} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 mx-1 rounded-md text-white font-bold'>Edit</button>
               <button  onClick={(e)=>{handleDelete(e, item.id)}} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 mx-1 rounded-md text-white font-bold '>Delete</button>
 
             </div>
