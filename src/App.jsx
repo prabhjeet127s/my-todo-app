@@ -3,6 +3,8 @@ import { useState } from 'react'
 
 import Navbar from './components/Navbar'
 
+import { v4 as uuidv4 } from 'uuid';
+
 function App() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
@@ -11,11 +13,15 @@ function App() {
   const handleEdit=()=>{
 
   }
-  const handleDelete=()=>{
+ const handleDelete= (e, id)=>{  
+    let newTodos = todos.filter(item=>{
+      return item.id!==id
+    }); 
+    setTodos(newTodos) 
     
   }
   const handleAdd=()=>{
-    setTodos([...todos,{todo,iscompletes: false}])
+    setTodos([...todos,{id: uuidv4(),todo,iscompletes: false}])
     console.log(todos);
     
     
@@ -25,6 +31,19 @@ function App() {
     
     
   }
+  
+  const handleCheckbox = (e) => { 
+    console.log(e,e.targer)
+    let id = e.target.name;  
+    let index = todos.findIndex(item=>{
+      return item.id === id;
+    }) 
+    let newTodos = [...todos];
+    newTodos[index].isCompleted = !newTodos[index].isCompleted;
+    setTodos(newTodos)
+  
+  }
+  
  
 
   return (
@@ -48,11 +67,12 @@ function App() {
           {todos.map((item)=>{
 
 
-       return   <div key={todo} className="todo flex justify-between w-1/4 my-3">
-            <div className="text ">{item.todo}</div>
+       return   <div key={item.id} className="todo flex justify-between w-1/4 my-3">
+       <input name={item.id} onChange={handleCheckbox} type="checkbox" value={item.isCompleted} id="" />
+            <div className={item.iscompleted?"line-through":""} >{item.todo}</div>
             <div className="buttons">
               <button onClick={handleEdit} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 mx-1 rounded-md text-white font-bold'>Edit</button>
-              <button  onClick={handleDelete} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 mx-1 rounded-md text-white font-bold '>Delete</button>
+              <button  onClick={(e)=>{handleDelete(e, item.id)}} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 mx-1 rounded-md text-white font-bold '>Delete</button>
 
             </div>
 
