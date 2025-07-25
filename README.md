@@ -2,7 +2,7 @@
 
 A simple and responsive Todo List App built using React, Vite, Tailwind CSS, and JavaScript. Manage your tasks efficiently — Add, edit, delete, and mark todos as completed. All data is stored in localStorage, so your tasks persist even after refreshing the browser.
 
----
+
 
 # 🚀 Features
 
@@ -14,16 +14,7 @@ A simple and responsive Todo List App built using React, Vite, Tailwind CSS, and
 - 💾 Persist todos using `localStorage`
 - ⚡ Built with blazing-fast Vite
 
----
 
-# 📸 Screenshots
-
-<img src="Screenshot 2025-07-21 165802" alt="iTask UI" width="600"/>
-
-
-> *(Add screenshots from your project folder like the ones you posted.)*
-
----
 
 ## 🛠️ Tech Stack
 
@@ -33,7 +24,7 @@ A simple and responsive Todo List App built using React, Vite, Tailwind CSS, and
 - **Icons**: `react-icons`
 - **Data Persistence**: LocalStorage
 
----
+
 
 ## 🧠 What I Learned
 
@@ -43,7 +34,7 @@ A simple and responsive Todo List App built using React, Vite, Tailwind CSS, and
 - Handling user input and UI state management
 - Implementing conditional rendering and filtering logic
 
----
+
 
 ## 🏁 Getting Started
 
